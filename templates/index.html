@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EU AI Act Checker</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <main class="container">
+    <section class="hero">
+      <p class="eyebrow">AI governance tool</p>
+      <h1>EU AI Act Compliance Checker</h1>
+      <p class="intro">Paste an AI use case below to get a quick risk classification, the likely EU AI Act category, and the next compliance action.</p>
+    </section>
+
+    <section class="panel">
+      <form action="/check" method="post" class="form-block">
+        <label for="use_case">Describe the AI use case</label>
+        <textarea id="use_case" name="use_case" rows="7" placeholder="Example: An AI tool that screens job applicants and ranks CVs for recruitment decisions.">{{ use_case }}</textarea>
+        <button type="submit">Run assessment</button>
+      </form>
+
+      <div class="examples">
+        <p class="examples-title">Try examples</p>
+        <ul>
+          <li>Real-time biometric identification in public spaces</li>
+          <li>AI screening tool for job applicants</li>
+          <li>Customer service chatbot on a website</li>
+          <li>Movie recommendation engine</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="grid">
+      <article class="info-card">
+        <h2>Risk tiers</h2>
+        <ul>
+          <li><strong>Unacceptable:</strong> prohibited uses.</li>
+          <li><strong>High:</strong> strict compliance obligations.</li>
+          <li><strong>Limited:</strong> transparency duties.</li>
+          <li><strong>Minimal:</strong> low regulatory burden.</li>
+        </ul>
+      </article>
+
+      <article class="info-card">
+        <h2>Important note</h2>
+        <p>This is a simplified screening tool for portfolio and triage purposes. It does not replace legal review or a full AI risk assessment.</p>
+      </article>
+    </section>
+
+    {% if result %}
+    <section class="result-card">
+      <div class="result-top">
+        <h2>Assessment result</h2>
+        <span class="badge {{ result.badge_class }}">{{ result.risk_level }}</span>
+      </div>
+      <p class="verdict">{{ result.verdict }}</p>
+
+      <div class="result-grid">
+        <div>
+          <h3>EU AI Act category</h3>
+          <p>{{ result.eu_ai_act_category }}</p>
+        </div>
+        <div>
+          <h3>Matched trigger</h3>
+          <p>{{ result.matched_trigger }}</p>
+        </div>
+        <div>
+          <h3>Why this classification</h3>
+          <p>{{ result.why }}</p>
+        </div>
+        <div>
+          <h3>Recommended next action</h3>
+          <p>{{ result.recommendation }}</p>
+        </div>
+      </div>
+    </section>
+    {% endif %}
+  </main>
+</body>
+</html>
